@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-
 
 public class PlayerCharacterInput : MonoBehaviour
 {
@@ -13,7 +10,6 @@ public class PlayerCharacterInput : MonoBehaviour
     public Vector2 look;
     public bool jump;
     public bool sprint;
-  
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -44,7 +40,6 @@ public class PlayerCharacterInput : MonoBehaviour
     {
         SprintInput(value.isPressed);
     }
-   
 
     public void MoveInput(Vector2 newMoveDirection)
     {
@@ -65,8 +60,6 @@ public class PlayerCharacterInput : MonoBehaviour
     {
         sprint = newSprintState;
     }
-    
-
 
     private void OnApplicationFocus(bool hasFocus)
     {
@@ -77,5 +70,4 @@ public class PlayerCharacterInput : MonoBehaviour
     {
         Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
     }
-
 }

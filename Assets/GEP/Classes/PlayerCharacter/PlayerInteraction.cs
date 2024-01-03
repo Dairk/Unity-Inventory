@@ -4,34 +4,24 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-
-    [SerializeField]
-    private string itemName;
-
-    [SerializeField]
-    private int quantity;
-
-    [SerializeField]
-    private Texture2D icon;
-
-    private InventoryManager inventoryManager;
-
     // Start is called before the first frame update
     void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        
     }
 
-    
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 
     void OnCollisionEnter(Collision collision)
     {
         IPickupable pickupable = collision.gameObject.GetComponent<IPickupable>();
         if (pickupable != null)
         {
-            inventoryManager.AddItem(itemName, quantity, icon);
             pickupable.Pickup();
-            
         }
     }
 }

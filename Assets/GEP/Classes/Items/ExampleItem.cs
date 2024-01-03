@@ -1,26 +1,45 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
-
+[RequireComponent(typeof(BoxCollider))]
 public class ExampleItem : MonoBehaviour, IPickupable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+ 
 
     /// <summary>
     /// This is where you will want to add your own implementation for your own systems.
     /// </summary>
+   // public float PickUpRadius = 1f;
+    public InventoryItemData ItemData;
+    private BoxCollider myCollider;
+
+    private void Awake()
+    {
+        myCollider = GetComponent<BoxCollider>();
+        myCollider.isTrigger = true;
+       // myCollider.size = PickUpRadius;
+
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var inventory = other.transform.GetComponent<InventoryHolder>();
+        if (!inventory) return;
+
+        if (inventory.InventorySystem.AddToInventory(ItemData, 1))
+        {
+            Pickup();
+        }
+    }
+
     public void Pickup()
     {
-        Destroy(gameObject);
+        Destroy (this.gameObject);
+        //Destroy(gameObject);
+
+      
     }
 }
