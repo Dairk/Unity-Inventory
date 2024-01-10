@@ -18,9 +18,9 @@ public abstract class InventoryDisplay : MonoBehaviour
 
   }
 
-  public abstract void AssignSlot(InventorySystem invToDisplay);
+  public abstract void AssignSlot(InventorySystem invToDisplay); // Implemented in child classes.
 
-  protected virtual void UpdateSlot(InventorySlot updatedSlot)
+  protected virtual void UpdateSlot(InventorySlot updatedSlot) //Pair up UI slots with the system slots.
   {
     foreach (var slot in SlotDictionary)
     {
@@ -33,12 +33,23 @@ public abstract class InventoryDisplay : MonoBehaviour
 
   public void SlotClicked(InventorySlot_UI clickedUISlot)
   {
+    bool isShiftPressed = Keyboard.current.leftShiftKey.isPressed; // Hard coded shift key can change here or in Unity input system.
+
     if (clickedUISlot.AssignedInventorySlot.ItemData != null
         && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
     {
-      mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
-      clickedUISlot.ClearSlot();
-      return;
+      if (isShiftPressed && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
+      {
+         mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
+         clickedUISlot.UpdateUISlot();
+         return;
+      }
+      else
+      {
+        mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+        clickedUISlot.ClearSlot();
+        return;
+      }
     }
 
     if (clickedUISlot.AssignedInventorySlot.ItemData == null
@@ -51,23 +62,41 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     }
 
-    if (clickedUISlot.AssignedInventorySlot.ItemData != null
-        && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
+    if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
     {
-      if (clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData &&
-          clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
+      bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData;
+     
+      if ( isSameItem && clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
       {
         clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+        clickedUISlot.UpdateUISlot();
+        
+        mouseInventoryItem.ClearSlot();
       }
-      if (clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData)
+      else if (isSameItem &&
+               !clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize, out int leftInStack))
+      {
+        if (leftInStack < 1) SwapSlots(clickedUISlot);
+        else
+        {
+          int remainingOnMouse = mouseInventoryItem.AssignedInventorySlot.StackSize - leftInStack;
+          clickedUISlot.AssignedInventorySlot.AddToStack(leftInStack);
+          clickedUISlot.UpdateUISlot();
+
+          var newItem = new InventorySlot(mouseInventoryItem.AssignedInventorySlot.ItemData, remainingOnMouse);
+          mouseInventoryItem.ClearSlot();
+          mouseInventoryItem.UpdateMouseSlot(newItem);
+          return;
+        }
+      } 
+      else if(!isSameItem)
       { 
-        SwapSlot(clickedUISlot);
+        SwapSlots(clickedUISlot);
+        return;
       }
     }
-
-    
   }
-  private void SwapSlot(InventorySlot_UI clickedUISlot)
+  private void SwapSlots(InventorySlot_UI clickedUISlot)
     {
       var clonedSlot = new InventorySlot(mouseInventoryItem.AssignedInventorySlot.ItemData,
         mouseInventoryItem.AssignedInventorySlot.StackSize);

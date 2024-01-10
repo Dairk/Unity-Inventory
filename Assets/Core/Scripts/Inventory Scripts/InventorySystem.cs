@@ -16,7 +16,7 @@ public class InventorySystem
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
 
-    public InventorySystem(int size)
+    public InventorySystem(int size) //Constructor 
     {
         inventorySlots = new List<InventorySlot>(size);
 
@@ -43,18 +43,16 @@ public class InventorySystem
         {
             if (freeSlot.EnoughRoomLeftInStack(amountToAdd))
             {
-                
+                freeSlot.UpdateInventorySlot(itemToAdd, amountToAdd);
+                OnInventorySlotChanged?.Invoke(freeSlot);
+                return true;
             }
-            freeSlot.UpdateInventorySlot(itemToAdd, amountToAdd);
-            OnInventorySlotChanged?.Invoke(freeSlot);
-            return true;
         }
         return false;
     }
     public bool ContainsItem(InventoryItemData itemToAdd, out List<InventorySlot> invSlot)
     {
         invSlot = InventorySlots.Where(i => i.ItemData == itemToAdd).ToList();
-       // InventorySlots.First(slot => slot.ItemData.MaxStackSize > 5);
 
         return invSlot == null ? false : true;
     }

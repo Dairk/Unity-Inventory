@@ -12,14 +12,15 @@ public class InventorySlot
     [SerializeField] private int stackSize;
 
     public InventoryItemData ItemData => itemData;
-    
+
     public int StackSize => stackSize;
 
-    public InventorySlot(InventoryItemData source, int amount)
+    public InventorySlot(InventoryItemData source, int amount)// Constructor to make an occupied inventory slot.
     {
         itemData = source;
         stackSize = amount;
     }
+
     public InventorySlot()
     {
         ClearSlot();
@@ -41,6 +42,7 @@ public class InventorySlot
             AddToStack(invSlot.stackSize);
         }
     }
+
     public void UpdateInventorySlot(InventoryItemData data, int amount)
     {
         itemData = data;
@@ -55,10 +57,11 @@ public class InventorySlot
 
     public bool EnoughRoomLeftInStack(int amountToAdd)
     {
-        
+
         if (itemData == null || itemData != null && stackSize + amountToAdd <= ItemData.MaxStackSize) return true;
         else return false;
     }
+
     public void AddToStack(int amount)
     {
         stackSize += amount;
@@ -68,5 +71,19 @@ public class InventorySlot
     {
         stackSize -= amount;
     }
-    
+
+    public bool SplitStack(out InventorySlot splitStack)
+    {
+        if (stackSize <= 1) //Is there enough to split the stack?
+        {
+            splitStack = null;
+            return false;
+        }
+
+        int halfStack = Mathf.RoundToInt(stackSize / 2); //Get half the stack.
+        RemoveFromStack(halfStack);
+
+        splitStack = new InventorySlot(itemData, halfStack);
+        return true;
+    }
 }

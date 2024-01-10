@@ -11,7 +11,7 @@ public class MouseItemData : MonoBehaviour
 {
     public Image ItemSprite;
     public TextMeshProUGUI ItemCount;
-    public InventorySlot AssignedInventorySlot;
+    public InventorySlot AssignedInventorySlot; 
     private void Awake()
     {
         ItemSprite.color = Color.clear;
@@ -28,13 +28,14 @@ public class MouseItemData : MonoBehaviour
 
     private void Update()
     {
-        if ( AssignedInventorySlot.ItemData != null)
+        if ( AssignedInventorySlot.ItemData != null) // If has an item, follow the mouse position.
         {
             transform.position = Mouse.current.position.ReadValue();
 
             if (Mouse.current.leftButton.wasPressedThisFrame && !IsPointerOverUIObject())
             {
                 ClearSlot();
+                //Drop item on ground.
             }
         }
     }
@@ -47,7 +48,7 @@ public class MouseItemData : MonoBehaviour
         ItemSprite.sprite = null;
     }
 
-    public static bool IsPointerOverUIObject()
+    public static bool IsPointerOverUIObject() // From stack overflow.
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
         eventDataCurrentPosition.position = Mouse.current.position.ReadValue();
