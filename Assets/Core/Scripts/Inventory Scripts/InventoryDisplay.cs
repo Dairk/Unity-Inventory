@@ -15,7 +15,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
   protected virtual void Start()
   {
-    
+
   }
 
   public abstract void AssignSlot(InventorySystem invToDisplay);
@@ -40,37 +40,44 @@ public abstract class InventoryDisplay : MonoBehaviour
       clickedUISlot.ClearSlot();
       return;
     }
+
     if (clickedUISlot.AssignedInventorySlot.ItemData == null
         && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
     {
       clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
       clickedUISlot.UpdateUISlot();
-      
+
       mouseInventoryItem.ClearSlot();
-      
+
     }
 
     if (clickedUISlot.AssignedInventorySlot.ItemData != null
         && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
     {
-      if (clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData)
+      if (clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData &&
+          clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
       {
+        clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+      }
+      if (clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData)
+      { 
         SwapSlot(clickedUISlot);
       }
     }
 
+    
+  }
+  private void SwapSlot(InventorySlot_UI clickedUISlot)
+    {
+      var clonedSlot = new InventorySlot(mouseInventoryItem.AssignedInventorySlot.ItemData,
+        mouseInventoryItem.AssignedInventorySlot.StackSize);
+      mouseInventoryItem.ClearSlot();
+
+      mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+
+      clickedUISlot.ClearSlot();
+      clickedUISlot.AssignedInventorySlot.AssignItem(clonedSlot);
+      clickedUISlot.UpdateUISlot();
+    }
   }
 
-  private void SwapSlot(InventorySlot_UI clickedUISlot)
-  {
-    var clonedSlot = new InventorySlot(mouseInventoryItem.AssignedInventorySlot.ItemData,
-      mouseInventoryItem.AssignedInventorySlot.StackSize);
-    mouseInventoryItem.ClearSlot();
-    
-    mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
-    
-    clickedUISlot.ClearSlot();
-    clickedUISlot.AssignedInventorySlot.AssignItem(clonedSlot);
-    clickedUISlot.UpdateUISlot();
-  }
-}
