@@ -15,7 +15,7 @@ public class PlayerCharacterInput : MonoBehaviour
     public bool analogMovement;
 
     [Header("Mouse Cursor Settings")]
-    public bool cursorLocked = true;
+    //public bool cursorLocked = true;
     public bool cursorInputForLook = true;
 
     public void OnMove(InputValue value)
@@ -63,7 +63,7 @@ public class PlayerCharacterInput : MonoBehaviour
 
     private void OnApplicationFocus(bool hasFocus)
     {
-        SetCursorState(cursorLocked);
+        //SetCursorState(cursorLocked);
     }
 
     private void SetCursorState(bool newState)
