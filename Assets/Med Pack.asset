@@ -17,3 +17,5 @@ MonoBehaviour:
   Description: This is a Med pack which restores 50% of player health.
   Icon: {fileID: 21300000, guid: a420a1f00ed53c249888af4b0cbaeaf9, type: 3}
   MaxStackSize: 5
+  ItemPrefab: {fileID: 312413468553563390, guid: 8d0faea353514a74dad2e3a2dc9bc137,
+    type: 3}

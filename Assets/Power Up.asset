@@ -17,3 +17,5 @@ MonoBehaviour:
   Description: One of several Power Ups.
   Icon: {fileID: 21300000, guid: 4635a5b5dbd2fbf4192fd78a54047b39, type: 3}
   MaxStackSize: 1
+  ItemPrefab: {fileID: 312413468553563390, guid: 8d0faea353514a74dad2e3a2dc9bc137,
+    type: 3}

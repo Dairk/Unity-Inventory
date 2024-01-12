@@ -17,3 +17,5 @@ MonoBehaviour:
   Description: This is a Deadly Poison reducing 75% when ingested.
   Icon: {fileID: 21300000, guid: 4ae5ae59f95f8054f8b2b30bd99607db, type: 3}
   MaxStackSize: 9
+  ItemPrefab: {fileID: 312413468553563390, guid: 8d0faea353514a74dad2e3a2dc9bc137,
+    type: 3}

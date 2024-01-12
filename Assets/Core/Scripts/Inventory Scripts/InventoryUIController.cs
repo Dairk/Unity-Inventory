@@ -7,8 +7,10 @@ using UnityEngine.InputSystem;
 
 public class InventoryUIController : MonoBehaviour
 {
+     
+     
     public DynamicInventoryDisplay inventoryPanel;
-
+      
     private void Awake()
     {
         inventoryPanel.gameObject.SetActive(false);
@@ -16,7 +18,10 @@ public class InventoryUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInventory;
+        
+        
+            InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInventory;
+        
     }
 
     private void OnDisable()

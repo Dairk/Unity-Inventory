@@ -34,7 +34,7 @@ public abstract class InventoryDisplay : MonoBehaviour
   public void SlotClicked(InventorySlot_UI clickedUISlot)
   {
     bool isShiftPressed = Keyboard.current.leftShiftKey.isPressed; // Hard coded shift key can change here or in Unity input system.
-
+    
     if (clickedUISlot.AssignedInventorySlot.ItemData != null
         && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
     {
@@ -44,6 +44,7 @@ public abstract class InventoryDisplay : MonoBehaviour
          clickedUISlot.UpdateUISlot();
          return;
       }
+      
       else
       {
         mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
@@ -64,7 +65,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
     {
-      bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData != mouseInventoryItem.AssignedInventorySlot.ItemData;
+      bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.AssignedInventorySlot.ItemData;
      
       if ( isSameItem && clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
       {
@@ -74,7 +75,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         mouseInventoryItem.ClearSlot();
       }
       else if (isSameItem &&
-               !clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize, out int leftInStack))
+               !clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack
+                 (mouseInventoryItem.AssignedInventorySlot.StackSize, out int leftInStack))
       {
         if (leftInStack < 1) SwapSlots(clickedUISlot);
         else

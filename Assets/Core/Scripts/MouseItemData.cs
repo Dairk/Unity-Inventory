@@ -5,17 +5,28 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using TMPro;
+using Unity.Mathematics;
 
 
 public class MouseItemData : MonoBehaviour
 {
     public Image ItemSprite;
     public TextMeshProUGUI ItemCount;
-    public InventorySlot AssignedInventorySlot; 
+    public InventorySlot AssignedInventorySlot;
+    public string ID => ID;
+    [SerializeField]public float dropOffset;
+    private Transform playerTransform;
+    
     private void Awake()
     {
         ItemSprite.color = Color.clear;
         ItemCount.text = "";
+
+        playerTransform = GameObject.FindGameObjectWithTag
+            ("Player").GetComponent<Transform>();
+        if(playerTransform == null) Debug.Log("player not found");
+        
+        
     }
 
     public void UpdateMouseSlot(InventorySlot invSlot)
@@ -34,8 +45,12 @@ public class MouseItemData : MonoBehaviour
 
             if (Mouse.current.leftButton.wasPressedThisFrame && !IsPointerOverUIObject())
             {
+               // if(AssignedInventorySlot.ItemData.ItemPrefab != null)Instantiate(AssignedInventorySlot.ItemData.ItemPrefab,
+                //       playerTransform.position + playerTransform.forward * dropOffset,
+                //       quaternion.identity);
+                    
                 ClearSlot();
-                //Drop item on ground.
+                
             }
         }
     }

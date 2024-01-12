@@ -86,4 +86,19 @@ public class InventorySlot
         splitStack = new InventorySlot(itemData, halfStack);
         return true;
     }
+   // public bool TakeStack(out InventorySlot takeStack)
+   // {
+    //    if (stackSize <= 1) //Is there enough to split the stack?
+     //   {
+     //       takeStack = null;
+      //      return false;
+     //   }
+
+      //  int lessStack = Mathf.RoundToInt(stackSize - 1); //Get 1 from the stack.
+      //  RemoveFromStack(lessStack);
+
+     //   takeStack = new InventorySlot(itemData, lessStack);
+     //   return true;
+   // }
+    
 }

@@ -17,3 +17,5 @@ MonoBehaviour:
   Description: This is a Bomb.
   Icon: {fileID: 21300000, guid: c222af0e2ec8b28488c9e44a66ce0bff, type: 3}
   MaxStackSize: 3
+  ItemPrefab: {fileID: 312413468553563390, guid: 8d0faea353514a74dad2e3a2dc9bc137,
+    type: 3}

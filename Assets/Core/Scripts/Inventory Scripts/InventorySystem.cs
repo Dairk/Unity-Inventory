@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class InventorySystem
@@ -18,12 +19,15 @@ public class InventorySystem
 
     public InventorySystem(int size) //Constructor 
     {
-        inventorySlots = new List<InventorySlot>(size);
+        
+        
+            inventorySlots = new List<InventorySlot>(size);
 
-        for (int i = 0; i < size; i++)
-        {
-            inventorySlots.Add(new InventorySlot());
-        }
+            for (int i = 0; i < size; i++)
+            {
+                inventorySlots.Add(new InventorySlot());
+            }
+        
     } 
     public bool AddToInventory(InventoryItemData itemToAdd, int amountToAdd)
     {
